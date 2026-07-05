@@ -124,15 +124,18 @@
     scrollTrigger: { trigger: "#contact .contact-grid", start: "top 90%", end: "top 55%", scrub: 0.7 },
   });
 
-  /* ============ VELOCITY SKEW: fast scrolling shears the sheets ============ */
+  /* ============ VELOCITY SKEW + kinetic marquees ============ */
   const skewTargets = gsap.utils.toArray(".about-grid, .skills-grid, .resume-grid, .contact-grid");
+  const marqueeTracks = gsap.utils.toArray(".marquee-track");
   if (skewTargets.length) {
     const proxy = { skew: 0 };
     const setter = gsap.quickSetter(skewTargets, "skewY", "deg");
     const clampSkew = gsap.utils.clamp(-1.4, 1.4);
+    let marqueeRate = 1;
     ScrollTrigger.create({
       onUpdate(self) {
-        const v = clampSkew(self.getVelocity() / -350);
+        const vel = self.getVelocity();
+        const v = clampSkew(vel / -350);
         if (Math.abs(v) > Math.abs(proxy.skew)) {
           proxy.skew = v;
           gsap.to(proxy, {
@@ -143,7 +146,16 @@
             onUpdate: () => setter(proxy.skew),
           });
         }
+        // marquees speed up with scroll velocity
+        marqueeRate = Math.max(marqueeRate, Math.min(4, 1 + Math.abs(vel) / 800));
       },
+    });
+    gsap.ticker.add(() => {
+      marqueeRate += (1 - marqueeRate) * 0.04;
+      for (const track of marqueeTracks) {
+        const anim = track.getAnimations()[0];
+        if (anim) anim.playbackRate = marqueeRate;
+      }
     });
   }
 

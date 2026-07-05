@@ -104,6 +104,36 @@ body { overflow-x: clip; }
   clip-path: inset(0 100% 0 0); /* scroll.js scrubs this open */
 }
 
+/* ============ PARTS BIN: physics chips (physics.js adds .phys) ============ */
+.skills-hint {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  margin: -18px 0 26px;
+}
+@media (max-width: 899px) { .skills-hint { display: none; } }
+
+.skill-group.phys { position: relative; overflow: hidden; }
+.skill-group.phys .tag,
+.skill-group.phys .chip-phys {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  opacity: 1 !important;
+  transition: color 200ms ease, border-color 200ms ease !important;
+  will-change: transform;
+  cursor: grab;
+  user-select: none;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.skill-group.phys .chip-phys:active { cursor: grabbing; }
+
 /* ============ HORIZONTAL PROJECTS (scroll.js adds .h-on) ============ */
 .h-lead { display: none; }
 

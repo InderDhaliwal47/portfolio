@@ -12,7 +12,10 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="scroll.css" />
   <script type="importmap">
-    { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+    { "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    } }
   </script>
 </head>
 <body>
@@ -236,6 +239,7 @@
         <span class="sd-outline">C · C++ · DSA</span>
         <span class="sd-fill">C · C++ · DSA</span>
       </div>
+      <p class="skills-hint" aria-hidden="true">// COMPONENTS ARE LOOSE — DRAG THEM AROUND</p>
 
       <div class="skills-grid">
         <div class="skill-group reveal">
@@ -393,8 +397,10 @@
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
   <script src="main.js"></script>
   <script src="scroll.js"></script>
+  <script src="physics.js"></script>
   <script type="module" src="scene.js"></script>
 </body>
 </html>

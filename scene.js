@@ -14,6 +14,9 @@
   Built with Three.js (ES module via importmap), same setup as Petal Lounge.
 */
 import * as THREE from "three";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
 
 const canvas = document.getElementById("bg3d");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -46,6 +49,53 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0x000000, 0);
 
+  // ---- custom post-processing: the "drafting lens" ----
+  // chromatic aberration boosted by scroll velocity, hologram scanlines,
+  // film grain, and a screen-space ripple synced with the click shockwave
+  const DraftingShader = {
+    uniforms: {
+      tDiffuse: { value: null },
+      uTime: { value: 0 },
+      uVel: { value: 0 },
+      uRipple: { value: 0 },
+      uRippleC: { value: new THREE.Vector2(0.5, 0.5) },
+    },
+    vertexShader: /* glsl */ `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }`,
+    fragmentShader: /* glsl */ `
+      uniform sampler2D tDiffuse;
+      uniform float uTime;
+      uniform float uVel;
+      uniform float uRipple;
+      uniform vec2 uRippleC;
+      varying vec2 vUv;
+      void main() {
+        vec2 uv = vUv;
+        // click ripple: a ring of refraction expanding from the click point
+        float d = distance(uv, uRippleC);
+        float wave = sin(d * 42.0 - uTime * 16.0) * exp(-d * 6.0) * uRipple * 0.014;
+        uv += normalize(uv - uRippleC + 1e-4) * wave;
+        // chromatic aberration, radial + velocity boosted
+        vec2 dir = uv - 0.5;
+        float ca = 0.0014 + uVel * 0.006 + uRipple * 0.004;
+        vec4 cc = texture2D(tDiffuse, uv);
+        vec4 cr = texture2D(tDiffuse, uv - dir * ca);
+        vec4 cb = texture2D(tDiffuse, uv + dir * ca);
+        vec3 col = vec3(cr.r, cc.g, cb.b);
+        // hologram scanlines
+        col *= 1.0 - 0.045 * sin(uv.y * 850.0 + uTime * 2.0);
+        // film grain, only where the structure is
+        float g = fract(sin(dot(uv, vec2(12.9898, 78.233)) + uTime * 61.7) * 43758.5453);
+        col += (g - 0.5) * 0.06 * cc.a;
+        float a = max(cc.a, max(cr.a, cb.a));
+        gl_FragColor = vec4(col, a);
+      }`,
+  };
+
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0x0d2440, 24, 46);
 
@@ -62,6 +112,14 @@ function init() {
   const probeMat = new THREE.LineBasicMaterial({ color: 0xffc24b, transparent: true, opacity: 0 });
   scene.add(new THREE.Line(probeGeo, probeMat));
   let pointerActive = false;
+
+  // composer chain: scene render → drafting lens
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const lensPass = new ShaderPass(DraftingShader);
+  composer.addPass(lensPass);
+  const lensU = lensPass.uniforms;
+  let velBoost = 0;
 
   // ---- palette ----
   const LINE_BLUE = new THREE.Color(0x8fb9e8);
@@ -473,6 +531,9 @@ function init() {
   const localClick = new THREE.Vector3();
   const pushDir = new THREE.Vector3();
   window.addEventListener("pointerdown", (e) => {
+    // screen-space ripple in the drafting lens, synced with the 3D shockwave
+    lensU.uRipple.value = 1;
+    lensU.uRippleC.value.set(e.clientX / window.innerWidth, 1 - e.clientY / window.innerHeight);
     const ndcX = (e.clientX / window.innerWidth) * 2 - 1;
     const ndcY = -(e.clientY / window.innerHeight) * 2 + 1;
     clickWorld.set(ndcX, ndcY, 0.5).unproject(camera).sub(camera.position).normalize();
@@ -500,6 +561,7 @@ function init() {
     lastScrollY = window.scrollY;
     const tug = Math.max(-2.5, Math.min(2.5, dy * 0.01));
     for (const obj of nodes.values()) obj.dvel.y += tug;
+    velBoost = Math.min(1, Math.abs(dy) / 90);
   };
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
@@ -508,6 +570,7 @@ function init() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
   });
 
   const NODE_BASE = 0.9;
@@ -673,7 +736,13 @@ function init() {
     }
     probeMat.opacity += (probeTarget - probeMat.opacity) * 0.25;
 
-    renderer.render(scene, camera);
+    // drafting-lens uniforms: time, decaying scroll velocity, ripple
+    lensU.uTime.value = t;
+    lensU.uVel.value += (velBoost - lensU.uVel.value) * 0.12;
+    velBoost *= Math.pow(0.02, dt);
+    lensU.uRipple.value = Math.max(0, lensU.uRipple.value - dt * 1.1);
+
+    composer.render();
   }
 
   renderer.setAnimationLoop(tick);
