@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="scroll.css" />
   <script type="importmap">
     { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
   </script>
@@ -60,6 +61,13 @@
   </header>
 
   <main>
+    <!-- the schematic wire: one continuous trace connecting every sheet,
+         routed + drawn by scroll.js -->
+    <svg class="wire" id="wire" aria-hidden="true" preserveAspectRatio="none">
+      <path id="wirePath" fill="none" vector-effect="non-scaling-stroke" />
+      <g id="wireJoints"></g>
+    </svg>
+
     <!-- ============ SHEET 01 · HOME ============ -->
     <section class="hero" id="home">
       <div class="hero-inner">
@@ -102,8 +110,16 @@
       </a>
     </section>
 
+    <!-- drafting-table marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>DRAFT · BUILD · SHIP · DEBUG · REPEAT ·&nbsp;</span><span>DRAFT · BUILD · SHIP · DEBUG · REPEAT ·&nbsp;</span><span>DRAFT · BUILD · SHIP · DEBUG · REPEAT ·&nbsp;</span><span>DRAFT · BUILD · SHIP · DEBUG · REPEAT ·&nbsp;</span>
+      </div>
+    </div>
+
     <!-- ============ SHEET 02 · ABOUT ============ -->
     <section class="section" id="about">
+      <span class="sec-num sec-num-r" aria-hidden="true">02</span>
       <header class="titleblock reveal">
         <span class="tb-sheet">SHEET 02 / 06</span>
         <h2 class="tb-title">About Me</h2>
@@ -152,7 +168,13 @@
         <span class="tb-rev">REV B · 2026</span>
       </header>
 
+      <div class="hwrap">
       <div class="project-grid">
+        <div class="h-lead" aria-hidden="true">
+          <p class="h-lead-kicker">SELECTED WORK</p>
+          <p class="h-lead-title">Specs on<br />the table</p>
+          <p class="h-lead-hint">SCROLL — THE SHEET SLIDES →</p>
+        </div>
         <article class="project-card reveal">
           <div class="project-thumb thumb-live">
             <iframe data-src="https://petal-lounge-website.vercel.app/" title="Live preview of the Petal Lounge website" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
@@ -198,15 +220,22 @@
           <p class="slot-text">Space reserved —<br />the next build goes here.</p>
         </article>
       </div>
+      </div>
     </section>
 
     <!-- ============ SHEET 04 · SKILLS ============ -->
     <section class="section" id="skills">
+      <span class="sec-num sec-num-l" aria-hidden="true">04</span>
       <header class="titleblock reveal">
         <span class="tb-sheet">SHEET 04 / 06</span>
         <h2 class="tb-title">Skills</h2>
         <span class="tb-rev">REV B · 2026</span>
       </header>
+
+      <div class="skills-display" aria-hidden="true">
+        <span class="sd-outline">C · C++ · DSA</span>
+        <span class="sd-fill">C · C++ · DSA</span>
+      </div>
 
       <div class="skills-grid">
         <div class="skill-group reveal">
@@ -238,6 +267,7 @@
 
     <!-- ============ SHEET 05 · RESUME ============ -->
     <section class="section" id="resume">
+      <span class="sec-num sec-num-r" aria-hidden="true">05</span>
       <header class="titleblock reveal">
         <span class="tb-sheet">SHEET 05 / 06</span>
         <h2 class="tb-title">Resume</h2>
@@ -273,8 +303,16 @@
       </div>
     </section>
 
+    <!-- second marquee: reversed direction -->
+    <div class="marquee marquee-rev" aria-hidden="true">
+      <div class="marquee-track">
+        <span>OPEN TO INTERNSHIPS · TALK CODE · SAY HELLO ·&nbsp;</span><span>OPEN TO INTERNSHIPS · TALK CODE · SAY HELLO ·&nbsp;</span><span>OPEN TO INTERNSHIPS · TALK CODE · SAY HELLO ·&nbsp;</span><span>OPEN TO INTERNSHIPS · TALK CODE · SAY HELLO ·&nbsp;</span>
+      </div>
+    </div>
+
     <!-- ============ SHEET 06 · CONTACT ============ -->
     <section class="section" id="contact">
+      <span class="sec-num sec-num-l" aria-hidden="true">06</span>
       <header class="titleblock reveal">
         <span class="tb-sheet">SHEET 06 / 06</span>
         <h2 class="tb-title">Contact</h2>
@@ -353,7 +391,10 @@
     <span>© <span id="year">2026</span> · REV B · ALL SHEETS LIVE</span>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="main.js"></script>
+  <script src="scroll.js"></script>
   <script type="module" src="scene.js"></script>
 </body>
 </html>

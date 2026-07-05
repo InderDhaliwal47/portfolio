@@ -1,0 +1,173 @@
+/* ============================================================
+   SCROLLYTELLING LAYER — one continuous drawing
+   Everything here augments styles.css; scroll.js activates the
+   scroll-driven behavior on desktop + motion-ok only.
+   ============================================================ */
+
+body { overflow-x: clip; }
+.section { position: relative; }
+
+/* GSAP-managed elements: kill CSS transitions so scrub owns them */
+.gs { transition: none !important; }
+
+/* ============ THE SCHEMATIC WIRE ============ */
+/* a single trace routed down the whole page by scroll.js,
+   drawn in by scroll, with solder joints at every sheet */
+.wire {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  overflow: visible;
+  pointer-events: none;
+}
+.wire path {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  opacity: 0.55;
+}
+.wire .joint {
+  fill: var(--ink);
+  stroke: rgba(146, 184, 222, 0.55);
+  stroke-width: 1.5;
+  transition: fill 300ms ease, stroke 300ms ease;
+}
+.wire .joint.lit {
+  fill: var(--accent);
+  stroke: var(--accent);
+  filter: drop-shadow(0 0 6px rgba(255, 194, 75, 0.8));
+}
+
+/* ============ GIANT MARGIN NUMBERS ============ */
+.sec-num {
+  position: absolute;
+  top: -0.08em;
+  z-index: -1;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(140px, 24vw, 320px);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(146, 184, 222, 0.22);
+  pointer-events: none;
+  user-select: none;
+}
+.sec-num-r { right: -3vw; }
+.sec-num-l { left: -3vw; }
+
+/* ============ MARQUEE BANDS ============ */
+.marquee {
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 16px 0;
+  margin-top: clamp(70px, 10vw, 120px);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-run 30s linear infinite;
+}
+.marquee-track span {
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(20px, 2.8vw, 34px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(157, 184, 212, 0.55);
+}
+.marquee-rev .marquee-track { animation-direction: reverse; }
+@keyframes marquee-run { to { transform: translateX(-50%); } }
+
+/* ============ SKILLS DISPLAY LINE (fills with scroll) ============ */
+.skills-display {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(44px, 8.5vw, 110px);
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin-bottom: clamp(28px, 4vw, 48px);
+  white-space: nowrap;
+}
+.sd-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(146, 184, 222, 0.45);
+}
+.sd-fill {
+  position: absolute;
+  inset: 0;
+  color: var(--accent);
+  clip-path: inset(0 100% 0 0); /* scroll.js scrubs this open */
+}
+
+/* ============ HORIZONTAL PROJECTS (scroll.js adds .h-on) ============ */
+.h-lead { display: none; }
+
+#projects.h-on .hwrap { overflow: hidden; }
+#projects.h-on .project-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  gap: 28px;
+  align-items: stretch;
+  padding-right: 8vw;
+}
+#projects.h-on .project-card {
+  width: min(500px, 62vw);
+  flex: 0 0 auto;
+}
+#projects.h-on .h-lead {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  width: min(420px, 55vw);
+  flex: 0 0 auto;
+  padding-right: 3vw;
+}
+.h-lead-kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+}
+.h-lead-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(42px, 5vw, 76px);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.h-lead-hint {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+
+/* ============ TIMELINE: amber progress line (scroll.js drives --tlp) ============ */
+.timeline.gs {
+  border-left: none;
+  background:
+    linear-gradient(var(--accent), var(--accent)) 0 0 / 1px calc(var(--tlp, 0) * 100%) no-repeat,
+    linear-gradient(var(--line), var(--line)) 0 0 / 1px 100% no-repeat;
+}
+
+/* ============ GUARDS ============ */
+@media (max-width: 899px) {
+  .wire, .sec-num { display: none; }
+  .skills-display { white-space: normal; font-size: clamp(34px, 10vw, 60px); }
+  /* on small screens the seal grows in rather than stamping down,
+     so its pre-reveal bounds never overflow the viewport */
+  .js .seal-wrap.reveal:not(.is-visible) { transform: scale(0.85); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wire, .sec-num { display: none; }
+  .marquee-track { animation: none; }
+  .sd-fill { clip-path: none; opacity: 0.25; }
+}

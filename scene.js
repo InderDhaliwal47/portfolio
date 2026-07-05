@@ -524,11 +524,18 @@ function init() {
     const dt = Math.min(Math.max(t - last, 0), 0.05);
     last = t;
 
-    // cinematic fly-in: dive into the drawing over the first ~2.2s
+    // cinematic fly-in: dive into the drawing over the first ~2.2s;
+    // scroll.js sets __camPush (0..1) while the hero unpins, pushing the
+    // camera THROUGH the structure as the visitor scrolls out of the hero
     if (introStart === null) introStart = t;
     const ip = Math.min(1, (t - introStart) / 2.2);
     const ease = 1 - Math.pow(1 - ip, 3);
-    camera.position.set(4 * (1 - ease), 1.5 * (1 - ease), 44 - 14 * ease);
+    const push = window.__camPush || 0;
+    camera.position.set(
+      4 * (1 - ease),
+      1.5 * (1 - ease) - push * 2,
+      44 - 14 * ease - push * 13
+    );
     camera.lookAt(0, 0, 0);
 
     // state machine: tree grows slowly at home, fast-fills off-home,
