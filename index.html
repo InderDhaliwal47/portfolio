@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CS Engineering Student @ NIT Jalandhar — Portfolio</title>
+  <meta name="description" content="Portfolio of a second-year CS engineering student at NIT Jalandhar — C/C++, data structures &amp; algorithms, and shipped web projects." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="importmap">
+    { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+  </script>
+</head>
+<body>
+  <script>document.body.classList.add("js");</script>
+
+  <!-- Plotter boot sequence (removed after first play per session) -->
+  <div class="boot" id="boot" aria-hidden="true">
+    <div class="boot-inner">
+      <p class="boot-line">NIT JALANDHAR // CSE — PORTFOLIO</p>
+      <p class="boot-line boot-line-2">PLOTTING SHEET 01 OF 06 …</p>
+      <div class="boot-bar"><span class="boot-fill" id="bootFill"></span></div>
+    </div>
+  </div>
+
+  <!-- 3D living blueprint: data structures that morph per section (scene.js) -->
+  <canvas class="bg3d" id="bg3d" aria-hidden="true"></canvas>
+
+  <!-- drafting-pencil cursor trail (desktop only) -->
+  <canvas class="trail" id="trail" aria-hidden="true"></canvas>
+
+  <!-- plotter-head sweep fired on nav jumps -->
+  <div class="sweep" id="sweep" aria-hidden="true"></div>
+
+  <a class="skip-link" href="#home">Skip to content</a>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <a class="nav-brand" href="#home">
+      <span class="nav-monogram">CS</span>
+      <span class="nav-brand-text">
+        <span class="nav-brand-name">CSE @ NITJ</span>
+        <span class="nav-brand-sub">PORTFOLIO · REV B</span>
+      </span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Main">
+      <a href="#home" class="nav-link is-active">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#resume" class="nav-link">Resume</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <!-- ============ SHEET 01 · HOME ============ -->
+    <section class="hero" id="home">
+      <div class="hero-inner">
+        <div class="reg-mark reg-tl" aria-hidden="true"></div>
+        <div class="reg-mark reg-tr" aria-hidden="true"></div>
+        <div class="reg-mark reg-bl" aria-hidden="true"></div>
+        <div class="reg-mark reg-br" aria-hidden="true"></div>
+
+        <p class="hero-eyebrow reveal">ENGINEERING PORTFOLIO — SHEET 01 / 06</p>
+
+        <div class="dimension" aria-hidden="true">
+          <span class="dim-cap"></span>
+          <span class="dim-line"></span>
+          <span class="dim-label">FIG. 1 — THE ENGINEER</span>
+          <span class="dim-line"></span>
+          <span class="dim-cap"></span>
+        </div>
+
+        <h1 class="hero-name"><span class="redacted">[Redacted]</span></h1>
+
+        <p class="hero-role reveal">
+          Second-year Computer Science undergrad at
+          <span class="accent">NIT Jalandhar</span> — sharpening data structures
+          &amp; algorithms in C and C++, and shipping real projects along the way.
+        </p>
+
+        <div class="hero-cta reveal">
+          <a class="btn btn-primary" href="#projects">View projects</a>
+          <a class="btn btn-ghost" href="#resume">Download resume</a>
+        </div>
+
+        <ul class="hero-meta reveal" aria-label="Quick facts">
+          <li><span class="meta-key">STATUS</span><span class="meta-val">Learning DSA</span></li>
+          <li><span class="meta-key">DEGREE</span><span class="meta-val">B.Tech CSE — NIT Jalandhar</span></li>
+          <li><span class="meta-key">YEAR</span><span class="meta-val">2nd year</span></li>
+        </ul>
+      </div>
+      <a class="hero-scroll" href="#about" aria-label="Scroll to About section">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </a>
+    </section>
+
+    <!-- ============ SHEET 02 · ABOUT ============ -->
+    <section class="section" id="about">
+      <header class="titleblock reveal">
+        <span class="tb-sheet">SHEET 02 / 06</span>
+        <h2 class="tb-title">About Me</h2>
+        <span class="tb-rev">REV B · 2026</span>
+      </header>
+
+      <div class="about-grid">
+        <figure class="about-photo reveal">
+          <div class="photo-frame">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="photo-placeholder-icon"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+            <figcaption class="photo-caption">FIG. 2 — PORTRAIT<br />[ CLASSIFIED ]</figcaption>
+          </div>
+        </figure>
+        <div class="about-copy reveal">
+          <p class="about-lede">
+            Second-year CS undergrad at NIT Jalandhar who'd rather build the thing
+            than just read the theory.
+          </p>
+          <p>
+            Right now I'm deep in data structures and algorithms — writing them from
+            scratch in C and C++ to understand what actually happens under the hood.
+            The wireframe tree growing behind this page is an AVL tree balancing
+            itself in real time; it's exactly the kind of thing I'm studying.
+          </p>
+          <p>
+            Outside coursework, I learn by shipping. My first real build,
+            <a class="inline-link" href="https://petal-lounge-website.vercel.app/" target="_blank" rel="noopener">Petal Lounge</a>,
+            went from an empty folder to a live, deployed website — 3D hero scene
+            included. More entries get drafted onto this sheet as they happen.
+          </p>
+          <ul class="fact-list" aria-label="Details">
+            <li><span class="meta-key">COLLEGE</span><span class="meta-val">NIT Jalandhar</span></li>
+            <li><span class="meta-key">BRANCH</span><span class="meta-val">B.Tech CSE</span></li>
+            <li><span class="meta-key">YEAR</span><span class="meta-val">2nd year</span></li>
+            <li><span class="meta-key">FOCUS</span><span class="meta-val">DSA · C/C++ · Web</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SHEET 03 · PROJECTS ============ -->
+    <section class="section" id="projects">
+      <header class="titleblock reveal">
+        <span class="tb-sheet">SHEET 03 / 06</span>
+        <h2 class="tb-title">Projects</h2>
+        <span class="tb-rev">REV B · 2026</span>
+      </header>
+
+      <div class="project-grid">
+        <article class="project-card reveal">
+          <div class="project-thumb thumb-live">
+            <iframe data-src="https://petal-lounge-website.vercel.app/" title="Live preview of the Petal Lounge website" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+            <span class="thumb-spec">SPEC NO. P-001 · LIVE</span>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">Petal Lounge — Café Website</h3>
+            <p class="project-desc">
+              A floral café site with a Three.js 3D hero, interactive menu, gift shop
+              and a custom bouquet builder — designed, built and deployed end-to-end.
+              The panel above is the real site, running live.
+            </p>
+            <ul class="tag-row" aria-label="Technologies used">
+              <li class="tag">HTML / CSS</li><li class="tag">JavaScript</li><li class="tag">Three.js</li><li class="tag">Vercel</li>
+            </ul>
+            <div class="project-links">
+              <a class="proj-link" href="https://petal-lounge-website.vercel.app/" target="_blank" rel="noopener">Live site ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-thumb" aria-hidden="true">
+            <span class="thumb-spec">SPEC NO. P-002 · IN DRAFT</span>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title">On the Drawing Board — DSA</h3>
+            <p class="project-desc">
+              Working through data structures and algorithms in C++ — implementations
+              and practice solutions will be published here as this sheet fills in.
+            </p>
+            <ul class="tag-row" aria-label="Technologies used">
+              <li class="tag">C++</li><li class="tag">Data Structures</li><li class="tag">Algorithms</li>
+            </ul>
+            <div class="project-links">
+              <a class="proj-link" href="https://github.com/InderDhaliwal47" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card is-slot reveal" aria-label="Reserved project slot">
+          <span class="slot-spec">SPEC NO. P-003</span>
+          <p class="slot-text">Space reserved —<br />the next build goes here.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ SHEET 04 · SKILLS ============ -->
+    <section class="section" id="skills">
+      <header class="titleblock reveal">
+        <span class="tb-sheet">SHEET 04 / 06</span>
+        <h2 class="tb-title">Skills</h2>
+        <span class="tb-rev">REV B · 2026</span>
+      </header>
+
+      <div class="skills-grid">
+        <div class="skill-group reveal">
+          <h3 class="skill-group-title">LANGUAGES</h3>
+          <ul class="tag-row tag-row-lg">
+            <li class="tag">C</li><li class="tag">C++</li>
+          </ul>
+        </div>
+        <div class="skill-group reveal">
+          <h3 class="skill-group-title">CURRENTLY LEARNING</h3>
+          <ul class="tag-row tag-row-lg">
+            <li class="tag">Data Structures &amp; Algorithms (C++)</li>
+          </ul>
+        </div>
+        <div class="skill-group reveal">
+          <h3 class="skill-group-title">WEB — HANDS-ON</h3>
+          <ul class="tag-row tag-row-lg">
+            <li class="tag">HTML</li><li class="tag">CSS</li><li class="tag">JavaScript</li><li class="tag">Three.js</li>
+          </ul>
+        </div>
+        <div class="skill-group reveal">
+          <h3 class="skill-group-title">TOOLS &amp; PLATFORMS</h3>
+          <ul class="tag-row tag-row-lg">
+            <li class="tag">Git / GitHub</li><li class="tag">VS Code</li><li class="tag">Vercel</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SHEET 05 · RESUME ============ -->
+    <section class="section" id="resume">
+      <header class="titleblock reveal">
+        <span class="tb-sheet">SHEET 05 / 06</span>
+        <h2 class="tb-title">Resume</h2>
+        <span class="tb-rev">REV B · 2026</span>
+      </header>
+
+      <div class="resume-grid">
+        <div class="timeline reveal">
+          <div class="tl-item">
+            <span class="tl-date">2ND YEAR · IN PROGRESS</span>
+            <h3 class="tl-title">B.Tech Computer Science — NIT Jalandhar</h3>
+            <p class="tl-desc">Core coursework under way, with a current focus on data structures &amp; algorithms built from first principles in C and C++.</p>
+          </div>
+          <div class="tl-item">
+            <span class="tl-date">2026</span>
+            <h3 class="tl-title">Petal Lounge — first shipped website</h3>
+            <p class="tl-desc">Designed, built and deployed a full multi-page café website with a Three.js 3D scene; live on Vercel.</p>
+          </div>
+          <div class="tl-item">
+            <span class="tl-date">SPACE RESERVED</span>
+            <h3 class="tl-title">Next entry — TBD</h3>
+            <p class="tl-desc">Hackathons, certifications and internships get drafted here as they land.</p>
+          </div>
+        </div>
+        <aside class="resume-cta reveal">
+          <p class="resume-cta-note">FULL DOCUMENT — PDF, 1 PAGE</p>
+          <a class="btn btn-primary btn-block" href="resume.pdf" download>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M6 11l6 6 6-6"/><path d="M4 21h16"/></svg>
+            Download resume
+          </a>
+          <p class="resume-cta-hint">Drop your <code>resume.pdf</code> into this folder and this button works.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ SHEET 06 · CONTACT ============ -->
+    <section class="section" id="contact">
+      <header class="titleblock reveal">
+        <span class="tb-sheet">SHEET 06 / 06</span>
+        <h2 class="tb-title">Contact</h2>
+        <span class="tb-rev">REV B · 2026</span>
+      </header>
+
+      <div class="contact-grid">
+        <div class="contact-copy reveal">
+          <p class="contact-lede">Have an opportunity, a question, or just want to talk code?</p>
+          <a class="contact-email" href="mailto:you@example.com">you@example.com</a>
+          <ul class="social-row" aria-label="Social links">
+            <li>
+              <a class="social-link" href="https://github.com/InderDhaliwal47" target="_blank" rel="noopener" aria-label="GitHub profile">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.35.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.66.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+                GitHub
+              </a>
+            </li>
+            <li><span class="social-link is-soon">LinkedIn — soon</span></li>
+            <li><span class="social-link is-soon">LeetCode — soon</span></li>
+          </ul>
+        </div>
+        <form class="contact-form reveal" action="mailto:you@example.com" method="post" enctype="text/plain">
+          <div class="field">
+            <label for="cf-name">NAME</label>
+            <input id="cf-name" name="name" type="text" placeholder="Jane Recruiter" required />
+          </div>
+          <div class="field">
+            <label for="cf-email">EMAIL</label>
+            <input id="cf-email" name="email" type="email" placeholder="jane@company.com" required />
+          </div>
+          <div class="field">
+            <label for="cf-msg">MESSAGE</label>
+            <textarea id="cf-msg" name="message" rows="4" placeholder="Hi, we'd like to talk about…" required></textarea>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Send message</button>
+          <p class="form-hint">Opens your email app for now — swap in your public address when you pick one.</p>
+        </form>
+      </div>
+
+      <!-- end-of-document approval seal -->
+      <div class="seal-wrap reveal">
+        <div class="seal" aria-hidden="true">
+          <svg viewBox="0 0 120 120" class="seal-ring">
+            <defs>
+              <path id="sealCircle" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" />
+            </defs>
+            <circle cx="60" cy="60" r="55" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5" />
+            <circle cx="60" cy="60" r="33" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5" />
+            <text class="seal-text">
+              <textPath href="#sealCircle">APPROVED FOR RELEASE · REV B · NITJ CSE · 2026 ·&#160;</textPath>
+            </text>
+          </svg>
+          <span class="seal-core">CS</span>
+        </div>
+        <p class="seal-note">SHEET 06 OF 06 — DRAWING SET COMPLETE</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- CAD-style HUD (desktop only) -->
+  <div class="hud" aria-hidden="true">
+    <span id="hudXY">X 0000 · Y 0000</span>
+    <span class="hud-sep">|</span>
+    <span id="hudSheet">SHEET 01 — HOME</span>
+    <span class="hud-sep">|</span>
+    <span id="hudStruct">STRUCT — AVL TREE</span>
+  </div>
+
+  <!-- margin ruler: scroll position gauge (desktop only) -->
+  <div class="ruler" aria-hidden="true">
+    <div class="ruler-marker" id="rulerMarker"><span id="rulerPct">000%</span></div>
+  </div>
+
+  <footer class="footer">
+    <span class="footer-sig">DRAWN &amp; BUILT BY [REDACTED]</span>
+    <span>© <span id="year">2026</span> · REV B · ALL SHEETS LIVE</span>
+  </footer>
+
+  <script src="main.js"></script>
+  <script type="module" src="scene.js"></script>
+</body>
+</html>

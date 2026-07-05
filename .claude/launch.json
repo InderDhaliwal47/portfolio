@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portofolio",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-V:Astral/CPython3.14.0", ".claude/serve.py"],
+      "port": 5051
+    }
+  ]
+}
