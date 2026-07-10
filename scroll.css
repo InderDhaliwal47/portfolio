@@ -137,6 +137,23 @@ body { overflow-x: clip; }
 /* ============ HORIZONTAL PROJECTS (scroll.js adds .h-on) ============ */
 .h-lead { display: none; }
 
+/* While pinned, the section's height IS the viewport — the generous
+   top padding meant for normal document flow would just eat into that
+   budget, and on shorter/scaled laptop screens the titleblock + card
+   no longer fit, silently cropping the bottom of the card (including
+   the project link) for the entire pinned duration. Centering the
+   group vertically and reclaiming the wasted top padding fixes that;
+   the thumb height cap below is a safety net for very short windows. */
+#projects.h-on {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: calc(var(--nav-h) + 20px);
+  padding-bottom: 20px;
+}
+#projects.h-on .titleblock { margin-bottom: clamp(20px, 3vw, 36px); }
+
 #projects.h-on .hwrap { overflow: hidden; }
 #projects.h-on .project-grid {
   display: flex;
@@ -149,6 +166,10 @@ body { overflow-x: clip; }
 #projects.h-on .project-card {
   width: min(500px, 62vw);
   flex: 0 0 auto;
+}
+#projects.h-on .project-thumb {
+  aspect-ratio: auto;
+  height: clamp(110px, 30vh, 281px);
 }
 #projects.h-on .h-lead {
   display: flex;
