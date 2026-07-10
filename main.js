@@ -398,20 +398,3 @@ if (contactForm) {
     setTimeout(() => { btn.textContent = original; }, 2600);
   });
 }
-
-/* ============ Live iframe preview (lazy, desktop only) ============ */
-// Width is checked when the card scrolls into view, not at load time,
-// so hidden/pre-rendered windows (which report width 0) aren't locked out.
-if (!reducedMotion) {
-  const frames = document.querySelectorAll(".thumb-live iframe[data-src]");
-  const frameObserver = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting && window.innerWidth >= 768) {
-        const f = entry.target;
-        f.src = f.dataset.src;
-        frameObserver.unobserve(f);
-      }
-    }
-  }, { rootMargin: "200px" });
-  frames.forEach((f) => frameObserver.observe(f));
-}
